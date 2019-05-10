@@ -1,8 +1,8 @@
 const router = require('express').Router()
-const moongose = require('moongose')
+const mongoose = require('mongoose')
 
 // Import model
-const reportModel = moongose.modem('Report')
+const reportModel = mongoose.model('Report')
 
 // Handle request report 
 router.param('report', function(req, res, next,id) {
