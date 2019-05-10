@@ -1,9 +1,9 @@
 const router = require('express').Router()
-const moongose = require('moongose')
+const moongose = require('mongoose')
 
 // Import models
 const purchaseModel = moongose.model('Purchase')
-const reportModel = moongose.modem('Report')
+const reportModel = moongose.model('Report')
 
 // Handle request purchase 
 router.param('purchase', function (req, res, next, id) {
@@ -27,16 +27,16 @@ router.post('/', (req, res) => {
     purchaseModel.findById(req.body.purchaseId).then( (purchase) => {
         if (!purchase) { res.statusCode(404) }
   
-        let purchase = new Purchase()
-        purchase.name = req.body.name
-        purchase.amount = req.body.amount
-        purchase.reportModel = reportModel
+        let _purchase = new Purchase()
+        _purchase.name = purchase.name
+        _purchase.amount = purchase.amount
+        _purchase.reportModel = purchase.reportModel
   
-        purchase.save().then(() => {
-            reportModel.purchase.push(purchase)
+        _purchase.save().then(() => {
+            reportModel.purchase.push(_purchase)
   
             reportModel.save().then(() => {
-                res.json(purchase.findPurchase()).statusCode(201)
+                res.json(_purchase.findPurchase()).statusCode(201)
             })
         })
     })
