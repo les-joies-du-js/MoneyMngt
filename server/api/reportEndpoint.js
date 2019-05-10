@@ -1,8 +1,5 @@
 const router = require('express').Router()
-const mongoose = require('mongoose')
-
-// Import model
-const reportModel = mongoose.model('Report')
+const mongoose = require('../models/reportModel')
 
 // Handle request report 
 router.param('report', function(req, res, next,id) {
@@ -34,7 +31,7 @@ router.get('/', (req,res) => {
     
     return res.json({
         reports: reports.map((report) => {
-            return report.findReport()
+            return reportModel.findReport()
         })
     }).status(200)
 })
@@ -50,7 +47,7 @@ router.post('/', (req, res) => {
     report.name = req.body.name
   
     report.save().then(() => {
-        res.json(report.findReport()).statusCode(201)
+        res.json(reportModel.findReport()).statusCode(201)
     })
   
  })

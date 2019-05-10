@@ -1,9 +1,9 @@
-const moongose = require('mongoose')
+const mongoose = require('mongoose')
 
 /**
  *  A purchase has a mandatory name and amount
  */
-let purchaseModel = new moongose.Schema({
+let purchaseModel = new mongoose.Schema({
     name: { type: String, required: [true, "not empty"], maxlength: 255 }, 
     amount: { type: Number, required: [true, "not empty"], maxlength: 5 }},
     { timestamps: true })
@@ -16,6 +16,6 @@ purchaseModel.method.findPurchase = function() {
     }
 }
 
-moongose.model('Purchase', purchaseModel)
+mongoose.model('Purchase', purchaseModel)
 
 // Purchase model

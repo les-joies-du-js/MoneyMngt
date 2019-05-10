@@ -1,6 +1,6 @@
 // Import mongoose module
 const mongoose = require('mongoose')
-const Purchase = mongoose.model('Purchase')
+const Purchase = require('../models/purchaseModel')
 
 /**
  *  A report has a mandatory name and contains an array of purchases

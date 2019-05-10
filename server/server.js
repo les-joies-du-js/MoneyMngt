@@ -4,6 +4,7 @@ var path = require('path') // Handle paths
 var http = require('http') // http module protocole
 var bodyParser = require('body-parser') //get request in json format :) 
 var mongoose = require('mongoose') // ORM database
+const api = require('./api/index') // api
 
 // Init
 const app = express() // const javascript.. you know
@@ -17,7 +18,6 @@ require('./models/purchaseModel')
 require('./models/reportModel')
 
 // API routes
-const api = require('./api/')
 app.use('/api', api)
 
 // Body parser configuration 
