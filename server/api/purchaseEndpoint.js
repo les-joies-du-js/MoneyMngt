@@ -80,3 +80,5 @@ router.delete('/:task', (req, res) => {
         res.sendStatus(422)
     }
 }
+
+module.exports = router

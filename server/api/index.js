@@ -1,7 +1,7 @@
-var reportEndpoint = require('./reportEndpoint')
-var purchaseEndpoint = require('./purchaseEndpoint')
+let reportEndpoint = require('./reportEndpoint')
+let purchaseEndpoint = require('./purchaseEndpoint')
 
-var router = require('express').Router();
+const router = require('express').Router();
 
 // Create route during to handle requests
 router.use('/report', reportEndpoint)
