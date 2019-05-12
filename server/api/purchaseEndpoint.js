@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const moongose = require('mongoose')
+const HttpStatus = require('http-status-codes')
 
 // Import models
 const purchaseModel = moongose.model('Purchase')
@@ -9,10 +10,10 @@ const reportModel = moongose.model('Report')
 router.param('purchase', function (req, res, next, id) {
     // check id the given id is what expected
     if (!id.match(/^[0-9a-fA-F]{3}$/)) {
-        return res.sendStatus(422)
+        return res.sendStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     }
     purchaseModel.findById(id).then((purchase) => {
-        if (!purchase) { return res.sendStatus(404) }
+        if (!purchase) { return res.sendStatus(HttpStatus.NOT_FOUND) }
   
         req.purchase = purchase
         return next()
@@ -25,7 +26,7 @@ router.post('/', (req, res) => {
     this.__checkPurchaseFrom(req)
 
     purchaseModel.findById(req.body.purchaseId).then( (purchase) => {
-        if (!purchase) { res.statusCode(404) }
+        if (!purchase) { res.statusCode(HttpStatus.NOT_FOUND) }
   
         let _purchase = new Purchase()
         _purchase.name = purchase.name
@@ -36,7 +37,7 @@ router.post('/', (req, res) => {
             reportModel.purchase.push(_purchase)
   
             reportModel.save().then(() => {
-                res.json(_purchase.findPurchase()).statusCode(201)
+                res.json(_purchase.findPurchase()).statusCode(HttpStatus.CREATED)
             })
         })
     })
@@ -51,7 +52,7 @@ router.put('/', (req, res) => {
         purchase.name = req.body.name
   
         purchase.save().then(() => {
-            res.json(purchase.findPurchase()).statusCode(200)
+            res.json(purchase.findPurchase()).statusCode(HttpStatus.OK)
         })
     })
 })
@@ -61,7 +62,7 @@ router.delete('/:task', (req, res) => {
     let purchase = req.purchase;
   
     purchase.remove().then(() => {
-        res.sendStatus(200)
+        res.sendStatus(HttpStatus.OK)
     })
  })
 
@@ -72,12 +73,12 @@ router.delete('/:task', (req, res) => {
  __checkPurchaseFrom = function (req){
     // Check if purchase is well formed
     if (!req.body.purchaseId || !req.body.name) {
-        res.sendStatus(422)
+        res.sendStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     }
 
     // Check id format
     if (!req.body.purchaseId.match(/^[0-9a-fA-F]{3}$/)) {
-        res.sendStatus(422)
+        res.sendStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     }
 }
 
