@@ -17,7 +17,7 @@ reportModel.pre('remove', (next) => {
 })
 
 // Retrieve simplify data retrival from model
-reportModel.method.findReport = function() {
+reportModel.methods.findReport = function() {
     return {
         id: this._id,
         name: this.name,
