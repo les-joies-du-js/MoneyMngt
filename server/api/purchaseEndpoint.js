@@ -24,7 +24,7 @@ router.param('purchase', function (req, res, next, id) {
 router.post('/', (req, res) => {
   
     this.__checkPurchaseFrom(req)
-
+    // purchaseId is given by the client?
     purchaseModel.findById(req.body.purchaseId).then( (purchase) => {
         if (!purchase) { res.statusCode(HttpStatus.NOT_FOUND) }
   
@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
             reportModel.purchase.push(_purchase)
   
             reportModel.save().then(() => {
-                res.json(_purchase.findPurchase()).statusCode(HttpStatus.CREATED)
+                res.json(_purchase.toClient()).statusCode(HttpStatus.CREATED)
             })
         })
     })
@@ -52,7 +52,7 @@ router.put('/', (req, res) => {
         purchase.name = req.body.name
   
         purchase.save().then(() => {
-            res.json(purchase.findPurchase()).statusCode(HttpStatus.OK)
+            res.json(purchase.toClient()).statusCode(HttpStatus.OK)
         })
     })
 })

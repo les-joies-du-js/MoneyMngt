@@ -8,7 +8,7 @@ let purchaseModel = new mongoose.Schema({
     amount: { type: Number, required: [true, "not empty"], maxlength: 5 }},
     { timestamps: true })
 
-purchaseModel.methods.findPurchase = function() {
+purchaseModel.methods.toClient = function() {
     return {
         id : this._id,
         name: this.name,

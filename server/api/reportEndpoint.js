@@ -13,8 +13,8 @@ router.param('report', function(req, res, next,id) {
     // Build object and handle request
     reportModel.findById(id)
         .populate('purchases')
-        .then(function (purchase) {
-            if(!purchase) { return res.sendStatus(HttpStatus.NOT_FOUND) }
+        .then(function (report) {
+            if(!report) { return res.sendStatus(HttpStatus.NOT_FOUND) }
 
             req.report = report
             return next()
@@ -32,23 +32,23 @@ router.get('/', (req,res) => {
     
     return res.json({
         reports: reports.map((report) => {
-            return reportModel.findReport()
+            return reportModel.toClient()
         })
     }).status(HttpStatus.OK)
 })
 
 // Save report 
 router.post('/', (req, res) => {
+    const {name} = req.body.name
     // F*ucking title needed
-    if (!req.body.name) {
+    if (!name) {
         res.sendStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     }
   
-    let report = new Report()
-    report.name = req.body.name
+    const report = new Report({name})
   
     report.save().then(() => {
-        res.json(reportModel.findReport()).statusCode(HttpStatus.CREATED)
+        res.json(reportModel.toClient()).statusCode(HttpStatus.CREATED)
     })
   
  })

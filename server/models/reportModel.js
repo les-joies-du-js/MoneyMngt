@@ -17,12 +17,12 @@ reportModel.pre('remove', (next) => {
 })
 
 // Retrieve simplify data retrival from model
-reportModel.methods.findReport = function() {
+reportModel.methods.toClient = function() {
     return {
         id: this._id,
         name: this.name,
         purchases: this.purchases.map( (purchase)=> {
-            return purchase.findPurchase()
+            return purchase.toClient()
         })
     }
 }
